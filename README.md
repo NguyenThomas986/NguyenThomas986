@@ -7,6 +7,16 @@ Anticipated Graduation: May 2028
 
 ---
 
+### Currently Working On
+
+- **[homerun](https://github.com/NguyenThomas986/homerun)** — Meant to help you launch a complete csRNA-seq analysis workflow from a project directory on a cluster
+  <br>
+  ![GitHub last commit](https://img.shields.io/github/last-commit/NguyenThomas986/homerun)
+
+- Learning Unity and C# game development
+
+---
+
 ### Tech Stack
 
 **Languages**  
