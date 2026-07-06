@@ -37,6 +37,16 @@ Anticipated Graduation: May 2028
 ![Figma](https://img.shields.io/badge/-Figma-F24E1E?style=flat&logo=figma&logoColor=white)
 ![MATLAB](https://img.shields.io/badge/-MATLAB-0076A8?style=flat&logo=mathworks&logoColor=white)
 
+---
+
+### 🐍 Contribution Snake
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/NguyenThomas986/NguyenThomas986/output/github-contribution-grid-snake.svg" alt="Snake animation" />
+</p>
+
+---
+
 ### Reach me
 [![Portfolio](https://img.shields.io/badge/-Portfolio-000000?style=flat&logo=github&logoColor=white)](https://nguyenthomas986.github.io)
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/thomasmnguyen)
