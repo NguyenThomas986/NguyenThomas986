@@ -1,5 +1,5 @@
 <img src="welcome.svg" height="56" draggable="false" style="cursor:default;"><br>
-Hello, I'm Thomas
+Hello, I'm Thomas 👋
 
 Computer Science @ Washington State University, Pullman  
 Sophomore  
