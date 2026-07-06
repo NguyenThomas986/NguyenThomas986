@@ -48,6 +48,7 @@ Anticipated Graduation: May 2028
     <img alt="GitHub contribution snake" src="https://raw.githubusercontent.com/NguyenThomas986/NguyenThomas986/output/github-contribution-grid-snake.svg">
   </picture>
 </p>
+
 ---
 
 ### Reach me
