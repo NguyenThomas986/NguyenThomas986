@@ -40,8 +40,6 @@ Anticipated Graduation: May 2028
 
 ---
 
-### 🐍 Contribution Snake
-
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/NguyenThomas986/NguyenThomas986/output/github-contribution-grid-snake-dark.svg">
