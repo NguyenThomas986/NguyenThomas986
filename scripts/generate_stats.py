@@ -163,7 +163,6 @@ def collect_commit_stats(repositories):
                         "+00:00",
                     )
                 )
-
             except ValueError:
                 continue
 
@@ -178,13 +177,13 @@ def collect_commit_stats(repositories):
     )
 
 
-def progress_bar(value, maximum, width=24):
-    """Create a text progress bar."""
-    if maximum <= 0:
+def progress_bar(value, total, width=24):
+    """Create a text progress bar based on total percentage."""
+    if total <= 0:
         filled = 0
     else:
         filled = round(
-            (value / maximum) * width
+            (value / total) * width
         )
 
     return (
@@ -203,6 +202,7 @@ def percentage(value, total):
 
 def build_time_stats(hourly, total):
     """Build Morning / Daytime / Evening / Night statistics."""
+
     periods = {
         "🌞 Morning": range(5, 12),
         "🌆 Daytime": range(12, 17),
@@ -221,13 +221,22 @@ def build_time_stats(hourly, total):
             for h in hours
         )
 
-    maximum = max(
-        period_counts.values(),
-        default=1,
+    # Find the most active period.
+    most_active = max(
+        period_counts,
+        key=period_counts.get,
+        default="🌞 Morning",
     )
 
+    titles = {
+        "🌞 Morning": "🌞 I'm a Morning Person",
+        "🌆 Daytime": "☀️ I'm a Daytime Developer",
+        "🌃 Evening": "🌃 I'm an Evening Developer",
+        "🌙 Night": "🌙 I'm a Night Owl",
+    }
+
     lines = [
-        "**I'm an Early 🐤**",
+        f"**{titles[most_active]}**",
         "",
         "<pre>",
     ]
@@ -240,7 +249,7 @@ def build_time_stats(hourly, total):
 
         bar = progress_bar(
             count,
-            maximum,
+            total,
         )
 
         lines.append(
@@ -257,6 +266,7 @@ def build_time_stats(hourly, total):
 
 def build_weekday_stats(weekdays, total):
     """Build Monday-Sunday statistics."""
+
     names = [
         "Monday",
         "Tuesday",
@@ -271,11 +281,6 @@ def build_weekday_stats(weekdays, total):
         weekdays,
         key=weekdays.get,
         default=0,
-    )
-
-    maximum = max(
-        weekdays.values(),
-        default=1,
     )
 
     lines = [
@@ -295,7 +300,7 @@ def build_weekday_stats(weekdays, total):
 
         bar = progress_bar(
             count,
-            maximum,
+            total,
         )
 
         lines.append(
@@ -312,6 +317,7 @@ def build_weekday_stats(weekdays, total):
 
 def get_languages(repositories):
     """Aggregate GitHub language byte counts across repositories."""
+
     language_totals = Counter()
 
     for repo in repositories:
@@ -336,6 +342,7 @@ def get_languages(repositories):
 
 def build_language_stats(languages):
     """Build most-used language section."""
+
     if not languages:
         return "No language data available."
 
@@ -344,8 +351,6 @@ def build_language_stats(languages):
     )
 
     most_common = languages.most_common(8)
-
-    maximum = most_common[0][1]
 
     lines = [
         "**Most Used Languages**",
@@ -361,7 +366,7 @@ def build_language_stats(languages):
 
         bar = progress_bar(
             byte_count,
-            maximum,
+            total_bytes,
             width=20,
         )
 
@@ -383,6 +388,7 @@ def update_section(
     content,
 ):
     """Replace content between README markers."""
+
     pattern = (
         re.escape(start_marker)
         + r".*?"
@@ -467,11 +473,11 @@ def main():
     )
 
     timestamp = (
-        f'<div align="center">'
-        f"<sub>"
+        '<div align="center">'
+        "<sub>"
         f"Last Updated on {updated}"
-        f"</sub>"
-        f"</div>"
+        "</sub>"
+        "</div>"
     )
 
     # Build complete Dev Metrics section.
