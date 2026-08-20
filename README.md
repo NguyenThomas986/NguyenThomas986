@@ -21,9 +21,8 @@ Anticipated Graduation: May 2028
 
 <!-- GitHub productivity statistics generated automatically -->
 
-<p align="center">
-  <img src="YOUR_GENERATED_STATS_URL" alt="GitHub productivity statistics">
-</p>
+<!-- START_GITHUB_STATS -->
+<!-- END_GITHUB_STATS -->
 
 ---
 
