@@ -9,7 +9,6 @@ from datetime import datetime, timezone
 
 USERNAME = os.environ.get("GITHUB_USERNAME", "NguyenThomas986")
 TOKEN = os.environ.get("GITHUB_TOKEN")
-
 API_URL = "https://api.github.com"
 PROFILE_REPO = f"{USERNAME}/{USERNAME}"
 
@@ -22,7 +21,6 @@ LANG_END_MARKER = "<!-- END_LANGUAGE_STATS -->"
 
 def github_request(endpoint, params=None):
     """Make a request to the GitHub API."""
-
     url = f"{API_URL}{endpoint}"
 
     if params:
@@ -50,7 +48,6 @@ def github_request(endpoint, params=None):
 
 def get_repositories():
     """Get public repositories owned by the user."""
-
     repositories = []
     page = 1
 
@@ -88,7 +85,6 @@ def get_repositories():
 
 def get_commits(repo_name):
     """Get commits authored by the user in a repository."""
-
     commits = []
     page = 1
 
@@ -117,15 +113,12 @@ def get_commits(repo_name):
 
 def collect_commit_stats(repositories):
     """Collect commit counts by hour and weekday."""
-
     hourly = Counter()
     weekdays = Counter()
-
     total_commits = 0
 
     for repo in repositories:
         repo_name = repo["full_name"]
-
         print(f"Checking commits in {repo_name}...")
 
         commits = get_commits(repo_name)
@@ -154,7 +147,6 @@ def collect_commit_stats(repositories):
 
 def progress_bar(value, maximum, width=24):
     """Create a text progress bar."""
-
     if maximum <= 0:
         filled = 0
     else:
@@ -165,7 +157,6 @@ def progress_bar(value, maximum, width=24):
 
 def percentage(value, total):
     """Calculate percentage."""
-
     if total == 0:
         return 0.0
 
@@ -174,7 +165,6 @@ def percentage(value, total):
 
 def build_time_stats(hourly, total):
     """Build Morning / Daytime / Evening / Night statistics."""
-
     periods = {
         "🌞 Morning": range(5, 12),
         "🌆 Daytime": range(12, 17),
@@ -208,12 +198,11 @@ def build_time_stats(hourly, total):
 
     lines.append("</pre>")
 
-    return "\n".join(lines)
+    return "\n".join(lines).rstrip()
 
 
 def build_weekday_stats(weekdays, total):
     """Build Monday-Sunday statistics."""
-
     names = [
         "Monday",
         "Tuesday",
@@ -253,17 +242,15 @@ def build_weekday_stats(weekdays, total):
 
     lines.append("</pre>")
 
-    return "\n".join(lines)
+    return "\n".join(lines).rstrip()
 
 
 def get_languages(repositories):
     """Aggregate GitHub language byte counts across repositories."""
-
     language_totals = Counter()
 
     for repo in repositories:
         repo_name = repo["full_name"]
-
         print(f"Checking languages in {repo_name}...")
 
         data = github_request(
@@ -281,17 +268,17 @@ def get_languages(repositories):
 
 def build_language_stats(languages):
     """Build most-used language section."""
-
     if not languages:
         return "No language data available."
 
     total_bytes = sum(languages.values())
-
     most_common = languages.most_common(8)
 
     maximum = most_common[0][1]
 
-    lines = ["<pre>"]
+    lines = [
+        "<pre>",
+    ]
 
     for language, byte_count in most_common:
         pct = percentage(byte_count, total_bytes)
@@ -310,7 +297,7 @@ def build_language_stats(languages):
 
     lines.append("</pre>")
 
-    return "\n".join(lines)
+    return "\n".join(lines).rstrip()
 
 
 def update_section(
@@ -320,7 +307,6 @@ def update_section(
     content,
 ):
     """Replace content between README markers."""
-
     pattern = (
         re.escape(start_marker)
         + r".*?"
@@ -345,6 +331,7 @@ def update_section(
             f"Warning: markers not found: "
             f"{start_marker}"
         )
+
         return readme
 
     return updated
@@ -385,25 +372,25 @@ def main():
         total_commits,
     )
 
+    # Language statistics.
+    languages = get_languages(repositories)
+
+    language_stats = build_language_stats(
+        languages
+    )
+
+    # Last updated timestamp.
     updated = datetime.now(
         timezone.utc
     ).strftime(
         "%d/%m/%Y %H:%M:%S UTC"
     )
 
+    # Build activity section.
     commit_stats = (
         time_stats
         + "\n"
         + weekday_stats
-        + "\n\n"
-        + f"Last Updated on {updated}"
-    )
-
-    # Language statistics.
-    languages = get_languages(repositories)
-
-    language_stats = build_language_stats(
-        languages
     )
 
     # Read README.
@@ -428,6 +415,25 @@ def main():
         LANG_START_MARKER,
         LANG_END_MARKER,
         language_stats,
+    )
+
+    # Put timestamp at the very bottom of
+    # the generated stats section.
+    timestamp = (
+        f'<div align="center">'
+        f'<sub>Last Updated on {updated}</sub>'
+        f"</div>"
+    )
+
+    # Insert timestamp after language stats.
+    language_end = (
+        LANG_END_MARKER
+    )
+
+    readme = readme.replace(
+        language_end,
+        f"{timestamp}\n{language_end}",
+        1,
     )
 
     # Write README.
