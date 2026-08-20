@@ -21,6 +21,9 @@ PROFILE_REPO = f"{USERNAME}/{USERNAME}"
 START_MARKER = "<!-- START_GITHUB_STATS -->"
 END_MARKER = "<!-- END_GITHUB_STATS -->"
 
+LANG_START_MARKER = "<!-- START_LANGUAGE_STATS -->"
+LANG_END_MARKER = "<!-- END_LANGUAGE_STATS -->"
+
 
 def github_request(endpoint, params=None):
     """Make a request to the GitHub API."""
@@ -163,6 +166,7 @@ def collect_commit_stats(repositories):
                         "+00:00",
                     )
                 )
+
             except ValueError:
                 continue
 
@@ -177,14 +181,19 @@ def collect_commit_stats(repositories):
     )
 
 
-def progress_bar(value, total, width=24):
-    """Create a text progress bar based on total percentage."""
-    if total <= 0:
+def progress_bar(value, maximum, width=24):
+    """Create a text progress bar relative to the maximum value."""
+    if maximum <= 0:
         filled = 0
     else:
         filled = round(
-            (value / total) * width
+            (value / maximum) * width
         )
+
+    filled = min(
+        max(filled, 0),
+        width,
+    )
 
     return (
         "█" * filled
@@ -221,11 +230,18 @@ def build_time_stats(hourly, total):
             for h in hours
         )
 
-    # Find the most active period.
+    # Find the busiest period.
     most_active = max(
         period_counts,
         key=period_counts.get,
         default="🌞 Morning",
+    )
+
+    # Scale activity bars relative to
+    # the busiest period.
+    maximum = max(
+        period_counts.values(),
+        default=1,
     )
 
     titles = {
@@ -249,7 +265,8 @@ def build_time_stats(hourly, total):
 
         bar = progress_bar(
             count,
-            total,
+            maximum,
+            width=24,
         )
 
         lines.append(
@@ -283,6 +300,13 @@ def build_weekday_stats(weekdays, total):
         default=0,
     )
 
+    # Scale weekday bars relative to
+    # the busiest day.
+    maximum = max(
+        weekdays.values(),
+        default=1,
+    )
+
     lines = [
         "**📅 I'm Most Productive on "
         f"{names[most_productive]}**",
@@ -300,7 +324,8 @@ def build_weekday_stats(weekdays, total):
 
         bar = progress_bar(
             count,
-            total,
+            maximum,
+            width=24,
         )
 
         lines.append(
@@ -364,9 +389,14 @@ def build_language_stats(languages):
             total_bytes,
         )
 
+        # Language bars are based on the
+        # actual percentage of total code.
+        #
+        # 49.81% -> approximately 10/20 blocks
+        # 09.83% -> approximately 2/20 blocks
         bar = progress_bar(
-            byte_count,
-            total_bytes,
+            pct,
+            100,
             width=20,
         )
 
@@ -420,6 +450,8 @@ def update_section(
 
 
 def main():
+    """Generate and update GitHub profile statistics."""
+
     print(
         f"Generating GitHub statistics "
         f"for {USERNAME}"
@@ -435,7 +467,10 @@ def main():
         print("No repositories found.")
         return
 
-    # Commit statistics.
+    # --------------------------------------------------
+    # Commit statistics
+    # --------------------------------------------------
+
     hourly, weekdays, total_commits = (
         collect_commit_stats(
             repositories
@@ -456,7 +491,10 @@ def main():
         total_commits,
     )
 
-    # Language statistics.
+    # --------------------------------------------------
+    # Language statistics
+    # --------------------------------------------------
+
     languages = get_languages(
         repositories
     )
@@ -465,7 +503,10 @@ def main():
         languages
     )
 
-    # Last updated timestamp.
+    # --------------------------------------------------
+    # Last updated timestamp
+    # --------------------------------------------------
+
     updated = datetime.now(
         timezone.utc
     ).strftime(
@@ -480,18 +521,22 @@ def main():
         "</div>"
     )
 
-    # Build complete Dev Metrics section.
+    # --------------------------------------------------
+    # Build Dev Metrics
+    # --------------------------------------------------
+
     github_stats = (
         time_stats
         + "\n\n"
         + weekday_stats
         + "\n\n"
-        + language_stats
-        + "\n\n"
         + timestamp
     )
 
-    # Read README.
+    # --------------------------------------------------
+    # Read README
+    # --------------------------------------------------
+
     with open(
         "README.md",
         "r",
@@ -499,7 +544,10 @@ def main():
     ) as file:
         readme = file.read()
 
-    # Update entire Dev Metrics section.
+    # --------------------------------------------------
+    # Update Dev Metrics
+    # --------------------------------------------------
+
     readme = update_section(
         readme,
         START_MARKER,
@@ -507,7 +555,21 @@ def main():
         github_stats,
     )
 
-    # Write README.
+    # --------------------------------------------------
+    # Update Most Used Languages
+    # --------------------------------------------------
+
+    readme = update_section(
+        readme,
+        LANG_START_MARKER,
+        LANG_END_MARKER,
+        language_stats,
+    )
+
+    # --------------------------------------------------
+    # Write README
+    # --------------------------------------------------
+
     with open(
         "README.md",
         "w",
