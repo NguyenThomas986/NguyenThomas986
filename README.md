@@ -17,6 +17,16 @@ Anticipated Graduation: May 2028
 
 ---
 
+### Dev Metrics
+
+<!-- GitHub productivity statistics generated automatically -->
+
+<p align="center">
+  <img src="YOUR_GENERATED_STATS_URL" alt="GitHub productivity statistics">
+</p>
+
+---
+
 ### Tech Stack
 
 **Languages**  
