@@ -3,7 +3,7 @@ import os
 import re
 import urllib.parse
 import urllib.request
-from collections import Counter, defaultdict
+from collections import Counter
 from datetime import datetime, timezone
 
 
@@ -75,7 +75,7 @@ def get_repositories():
 
         page += 1
 
-    # Don't include the profile repository itself.
+    # Exclude profile repository and forks.
     repositories = [
         repo
         for repo in repositories
@@ -133,7 +133,6 @@ def collect_commit_stats(repositories):
         for commit in commits:
             commit_info = commit.get("commit", {})
             author = commit_info.get("author", {})
-
             timestamp = author.get("date")
 
             if not timestamp:
@@ -154,9 +153,9 @@ def collect_commit_stats(repositories):
 
 
 def progress_bar(value, maximum, width=24):
-    """Create a simple text progress bar."""
+    """Create a text progress bar."""
 
-    if maximum == 0:
+    if maximum <= 0:
         filled = 0
     else:
         filled = round((value / maximum) * width)
@@ -183,35 +182,33 @@ def build_time_stats(hourly, total):
         "🌙 Night": list(range(22, 24)) + list(range(0, 5)),
     }
 
-    results = []
-
     period_counts = {}
 
     for name, hours in periods.items():
-        count = sum(hourly[h] for h in hours)
-        period_counts[name] = count
+        period_counts[name] = sum(hourly[h] for h in hours)
 
-    most_productive = max(
-        period_counts,
-        key=period_counts.get,
-        default="🌞 Morning",
-    )
+    maximum = max(period_counts.values(), default=1)
 
-    results.append(f"**I'm an Early 🐤**")
-    results.append("")
+    lines = [
+        "**I'm an Early 🐤**",
+        "",
+        "<pre>",
+    ]
 
     for name, count in period_counts.items():
         pct = percentage(count, total)
-        bar = progress_bar(count, max(period_counts.values(), default=1))
+        bar = progress_bar(count, maximum)
 
-        results.append(
-            f"{name:<18} "
+        lines.append(
+            f"{name:<16}"
             f"{count:>5} commits   "
             f"{bar} "
             f"{pct:05.2f} %"
         )
 
-    return "\n".join(results), most_productive
+    lines.append("</pre>")
+
+    return "\n".join(lines)
 
 
 def build_weekday_stats(weekdays, total):
@@ -227,35 +224,36 @@ def build_weekday_stats(weekdays, total):
         "Sunday",
     ]
 
-    results = []
-
     most_productive = max(
         weekdays,
         key=weekdays.get,
         default=0,
     )
 
-    results.append("")
-    results.append(
-        f"**📅 I'm Most Productive on {names[most_productive]}**"
-    )
-    results.append("")
-
     maximum = max(weekdays.values(), default=1)
+
+    lines = [
+        "",
+        f"**📅 I'm Most Productive on {names[most_productive]}**",
+        "",
+        "<pre>",
+    ]
 
     for index, name in enumerate(names):
         count = weekdays[index]
         pct = percentage(count, total)
         bar = progress_bar(count, maximum)
 
-        results.append(
-            f"{name:<10} "
+        lines.append(
+            f"{name:<12}"
             f"{count:>5} commits   "
             f"{bar} "
             f"{pct:05.2f} %"
         )
 
-    return "\n".join(results)
+    lines.append("</pre>")
+
+    return "\n".join(lines)
 
 
 def get_languages(repositories):
@@ -268,7 +266,9 @@ def get_languages(repositories):
 
         print(f"Checking languages in {repo_name}...")
 
-        data = github_request(f"/repos/{repo_name}/languages")
+        data = github_request(
+            f"/repos/{repo_name}/languages"
+        )
 
         if not data:
             continue
@@ -287,30 +287,45 @@ def build_language_stats(languages):
 
     total_bytes = sum(languages.values())
 
-    results = []
+    most_common = languages.most_common(8)
 
-    for language, byte_count in languages.most_common(8):
+    maximum = most_common[0][1]
+
+    lines = ["<pre>"]
+
+    for language, byte_count in most_common:
         pct = percentage(byte_count, total_bytes)
 
         bar = progress_bar(
             byte_count,
-            languages.most_common(1)[0][1],
+            maximum,
             width=20,
         )
 
-        results.append(
-            f"{language:<15} "
+        lines.append(
+            f"{language:<15}"
             f"{bar} "
             f"{pct:05.2f} %"
         )
 
-    return "\n".join(results)
+    lines.append("</pre>")
+
+    return "\n".join(lines)
 
 
-def update_section(readme, start_marker, end_marker, content):
+def update_section(
+    readme,
+    start_marker,
+    end_marker,
+    content,
+):
     """Replace content between README markers."""
 
-    pattern = re.escape(start_marker) + r".*?" + re.escape(end_marker)
+    pattern = (
+        re.escape(start_marker)
+        + r".*?"
+        + re.escape(end_marker)
+    )
 
     replacement = (
         f"{start_marker}\n"
@@ -326,31 +341,41 @@ def update_section(readme, start_marker, end_marker, content):
     )
 
     if count == 0:
-        print(f"Warning: markers not found: {start_marker}")
+        print(
+            f"Warning: markers not found: "
+            f"{start_marker}"
+        )
         return readme
 
     return updated
 
 
 def main():
-    print(f"Generating GitHub statistics for {USERNAME}")
+    print(
+        f"Generating GitHub statistics "
+        f"for {USERNAME}"
+    )
 
     repositories = get_repositories()
 
-    print(f"Found {len(repositories)} repositories.")
+    print(
+        f"Found {len(repositories)} repositories."
+    )
 
     if not repositories:
         print("No repositories found.")
         return
 
-    hourly, weekdays, total_commits = collect_commit_stats(
-        repositories
+    # Commit statistics.
+    hourly, weekdays, total_commits = (
+        collect_commit_stats(repositories)
     )
 
-    print(f"Found {total_commits} commits.")
+    print(
+        f"Found {total_commits} commits."
+    )
 
-    # Build commit statistics.
-    time_stats, most_productive_period = build_time_stats(
+    time_stats = build_time_stats(
         hourly,
         total_commits,
     )
@@ -360,7 +385,9 @@ def main():
         total_commits,
     )
 
-    updated = datetime.now(timezone.utc).strftime(
+    updated = datetime.now(
+        timezone.utc
+    ).strftime(
         "%d/%m/%Y %H:%M:%S UTC"
     )
 
@@ -372,13 +399,19 @@ def main():
         + f"Last Updated on {updated}"
     )
 
-    # Build language statistics.
+    # Language statistics.
     languages = get_languages(repositories)
 
-    language_stats = build_language_stats(languages)
+    language_stats = build_language_stats(
+        languages
+    )
 
     # Read README.
-    with open("README.md", "r", encoding="utf-8") as file:
+    with open(
+        "README.md",
+        "r",
+        encoding="utf-8",
+    ) as file:
         readme = file.read()
 
     # Update GitHub activity.
@@ -398,10 +431,16 @@ def main():
     )
 
     # Write README.
-    with open("README.md", "w", encoding="utf-8") as file:
+    with open(
+        "README.md",
+        "w",
+        encoding="utf-8",
+    ) as file:
         file.write(readme)
 
-    print("README.md updated successfully.")
+    print(
+        "README.md updated successfully."
+    )
 
 
 if __name__ == "__main__":
