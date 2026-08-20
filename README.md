@@ -22,6 +22,24 @@ Anticipated Graduation: May 2028
 <!-- GitHub productivity statistics generated automatically -->
 
 <!-- START_GITHUB_STATS -->
+**I'm an Early 🐤**
+
+🌞 Morning             39 commits   ████████████░░░░░░░░░░░░ 22.41 %
+🌆 Daytime              0 commits   ░░░░░░░░░░░░░░░░░░░░░░░░ 00.00 %
+🌃 Evening             56 commits   █████████████████░░░░░░░ 32.18 %
+🌙 Night               79 commits   ████████████████████████ 45.40 %
+
+**📅 I'm Most Productive on Wednesday**
+
+Monday        28 commits   ████████████░░░░░░░░░░░░ 16.09 %
+Tuesday       43 commits   ██████████████████░░░░░░ 24.71 %
+Wednesday     58 commits   ████████████████████████ 33.33 %
+Thursday      24 commits   ██████████░░░░░░░░░░░░░░ 13.79 %
+Friday        16 commits   ███████░░░░░░░░░░░░░░░░░ 09.20 %
+Saturday       0 commits   ░░░░░░░░░░░░░░░░░░░░░░░░ 00.00 %
+Sunday         5 commits   ██░░░░░░░░░░░░░░░░░░░░░░ 02.87 %
+
+Last Updated on 20/08/2026 21:23:29 UTC
 <!-- END_GITHUB_STATS -->
 
 ---
@@ -62,6 +80,14 @@ Anticipated Graduation: May 2028
 ### Most Used Languages
 
 <!-- START_LANGUAGE_STATS -->
+C++             ████████████████████ 49.81 %
+HTML            ████░░░░░░░░░░░░░░░░ 09.83 %
+TypeScript      ████░░░░░░░░░░░░░░░░ 09.67 %
+Python          ███░░░░░░░░░░░░░░░░░ 06.29 %
+CMake           ██░░░░░░░░░░░░░░░░░░ 05.26 %
+Rust            ██░░░░░░░░░░░░░░░░░░ 04.71 %
+JavaScript      ██░░░░░░░░░░░░░░░░░░ 03.97 %
+ShaderLab       █░░░░░░░░░░░░░░░░░░░ 03.40 %
 <!-- END_LANGUAGE_STATS -->
 
 ---
