@@ -42,6 +42,21 @@ Friday         16 commits   ███████░░░░░░░░░░�
 Saturday        0 commits   ░░░░░░░░░░░░░░░░░░░░░░░░ 00.00 %
 Sunday          5 commits   ██░░░░░░░░░░░░░░░░░░░░░░ 02.87 %
 </pre>
+
+**Most Used Languages**
+
+<pre>
+C++            ████████████████████ 49.81 %
+HTML           ████░░░░░░░░░░░░░░░░ 09.83 %
+TypeScript     ████░░░░░░░░░░░░░░░░ 09.67 %
+Python         ███░░░░░░░░░░░░░░░░░ 06.29 %
+CMake          ██░░░░░░░░░░░░░░░░░░ 05.26 %
+Rust           ██░░░░░░░░░░░░░░░░░░ 04.71 %
+JavaScript     ██░░░░░░░░░░░░░░░░░░ 03.97 %
+ShaderLab      █░░░░░░░░░░░░░░░░░░░ 03.40 %
+</pre>
+
+<div align="center"><sub>Last Updated on 20/08/2026 21:43:18 UTC</sub></div>
 <!-- END_GITHUB_STATS -->
 
 ### Most Used Languages
