@@ -7,16 +7,19 @@ from collections import Counter
 from datetime import datetime, timezone
 
 
-USERNAME = os.environ.get("GITHUB_USERNAME", "NguyenThomas986")
+USERNAME = os.environ.get(
+    "GITHUB_USERNAME",
+    "NguyenThomas986",
+)
+
 TOKEN = os.environ.get("GITHUB_TOKEN")
+
 API_URL = "https://api.github.com"
+
 PROFILE_REPO = f"{USERNAME}/{USERNAME}"
 
 START_MARKER = "<!-- START_GITHUB_STATS -->"
 END_MARKER = "<!-- END_GITHUB_STATS -->"
-
-LANG_START_MARKER = "<!-- START_LANGUAGE_STATS -->"
-LANG_END_MARKER = "<!-- END_LANGUAGE_STATS -->"
 
 
 def github_request(endpoint, params=None):
@@ -35,14 +38,22 @@ def github_request(endpoint, params=None):
     if TOKEN:
         headers["Authorization"] = f"Bearer {TOKEN}"
 
-    request = urllib.request.Request(url, headers=headers)
+    request = urllib.request.Request(
+        url,
+        headers=headers,
+    )
 
     try:
         with urllib.request.urlopen(request) as response:
-            return json.loads(response.read().decode("utf-8"))
+            return json.loads(
+                response.read().decode("utf-8")
+            )
 
     except urllib.error.HTTPError as error:
-        print(f"GitHub API error: {error.code} {error.reason}")
+        print(
+            f"GitHub API error: "
+            f"{error.code} {error.reason}"
+        )
         return None
 
 
@@ -76,8 +87,11 @@ def get_repositories():
     repositories = [
         repo
         for repo in repositories
-        if repo["full_name"].lower() != PROFILE_REPO.lower()
-        and not repo.get("fork", False)
+        if (
+            repo["full_name"].lower()
+            != PROFILE_REPO.lower()
+            and not repo.get("fork", False)
+        )
     ]
 
     return repositories
@@ -119,13 +133,24 @@ def collect_commit_stats(repositories):
 
     for repo in repositories:
         repo_name = repo["full_name"]
-        print(f"Checking commits in {repo_name}...")
+
+        print(
+            f"Checking commits in {repo_name}..."
+        )
 
         commits = get_commits(repo_name)
 
         for commit in commits:
-            commit_info = commit.get("commit", {})
-            author = commit_info.get("author", {})
+            commit_info = commit.get(
+                "commit",
+                {},
+            )
+
+            author = commit_info.get(
+                "author",
+                {},
+            )
+
             timestamp = author.get("date")
 
             if not timestamp:
@@ -133,8 +158,12 @@ def collect_commit_stats(repositories):
 
             try:
                 dt = datetime.fromisoformat(
-                    timestamp.replace("Z", "+00:00")
+                    timestamp.replace(
+                        "Z",
+                        "+00:00",
+                    )
                 )
+
             except ValueError:
                 continue
 
@@ -142,7 +171,11 @@ def collect_commit_stats(repositories):
             weekdays[dt.weekday()] += 1
             total_commits += 1
 
-    return hourly, weekdays, total_commits
+    return (
+        hourly,
+        weekdays,
+        total_commits,
+    )
 
 
 def progress_bar(value, maximum, width=24):
@@ -150,9 +183,14 @@ def progress_bar(value, maximum, width=24):
     if maximum <= 0:
         filled = 0
     else:
-        filled = round((value / maximum) * width)
+        filled = round(
+            (value / maximum) * width
+        )
 
-    return "█" * filled + "░" * (width - filled)
+    return (
+        "█" * filled
+        + "░" * (width - filled)
+    )
 
 
 def percentage(value, total):
@@ -169,15 +207,24 @@ def build_time_stats(hourly, total):
         "🌞 Morning": range(5, 12),
         "🌆 Daytime": range(12, 17),
         "🌃 Evening": range(17, 22),
-        "🌙 Night": list(range(22, 24)) + list(range(0, 5)),
+        "🌙 Night": (
+            list(range(22, 24))
+            + list(range(0, 5))
+        ),
     }
 
     period_counts = {}
 
     for name, hours in periods.items():
-        period_counts[name] = sum(hourly[h] for h in hours)
+        period_counts[name] = sum(
+            hourly[h]
+            for h in hours
+        )
 
-    maximum = max(period_counts.values(), default=1)
+    maximum = max(
+        period_counts.values(),
+        default=1,
+    )
 
     lines = [
         "**I'm an Early 🐤**",
@@ -186,8 +233,15 @@ def build_time_stats(hourly, total):
     ]
 
     for name, count in period_counts.items():
-        pct = percentage(count, total)
-        bar = progress_bar(count, maximum)
+        pct = percentage(
+            count,
+            total,
+        )
+
+        bar = progress_bar(
+            count,
+            maximum,
+        )
 
         lines.append(
             f"{name:<16}"
@@ -219,19 +273,30 @@ def build_weekday_stats(weekdays, total):
         default=0,
     )
 
-    maximum = max(weekdays.values(), default=1)
+    maximum = max(
+        weekdays.values(),
+        default=1,
+    )
 
     lines = [
-        "",
-        f"**📅 I'm Most Productive on {names[most_productive]}**",
+        "**📅 I'm Most Productive on "
+        f"{names[most_productive]}**",
         "",
         "<pre>",
     ]
 
     for index, name in enumerate(names):
         count = weekdays[index]
-        pct = percentage(count, total)
-        bar = progress_bar(count, maximum)
+
+        pct = percentage(
+            count,
+            total,
+        )
+
+        bar = progress_bar(
+            count,
+            maximum,
+        )
 
         lines.append(
             f"{name:<12}"
@@ -251,7 +316,10 @@ def get_languages(repositories):
 
     for repo in repositories:
         repo_name = repo["full_name"]
-        print(f"Checking languages in {repo_name}...")
+
+        print(
+            f"Checking languages in {repo_name}..."
+        )
 
         data = github_request(
             f"/repos/{repo_name}/languages"
@@ -271,17 +339,25 @@ def build_language_stats(languages):
     if not languages:
         return "No language data available."
 
-    total_bytes = sum(languages.values())
+    total_bytes = sum(
+        languages.values()
+    )
+
     most_common = languages.most_common(8)
 
     maximum = most_common[0][1]
 
     lines = [
+        "**Most Used Languages**",
+        "",
         "<pre>",
     ]
 
     for language, byte_count in most_common:
-        pct = percentage(byte_count, total_bytes)
+        pct = percentage(
+            byte_count,
+            total_bytes,
+        )
 
         bar = progress_bar(
             byte_count,
@@ -328,7 +404,7 @@ def update_section(
 
     if count == 0:
         print(
-            f"Warning: markers not found: "
+            "Warning: markers not found: "
             f"{start_marker}"
         )
 
@@ -355,7 +431,9 @@ def main():
 
     # Commit statistics.
     hourly, weekdays, total_commits = (
-        collect_commit_stats(repositories)
+        collect_commit_stats(
+            repositories
+        )
     )
 
     print(
@@ -373,7 +451,9 @@ def main():
     )
 
     # Language statistics.
-    languages = get_languages(repositories)
+    languages = get_languages(
+        repositories
+    )
 
     language_stats = build_language_stats(
         languages
@@ -386,11 +466,23 @@ def main():
         "%d/%m/%Y %H:%M:%S UTC"
     )
 
-    # Build activity section.
-    commit_stats = (
+    timestamp = (
+        f'<div align="center">'
+        f"<sub>"
+        f"Last Updated on {updated}"
+        f"</sub>"
+        f"</div>"
+    )
+
+    # Build complete Dev Metrics section.
+    github_stats = (
         time_stats
-        + "\n"
+        + "\n\n"
         + weekday_stats
+        + "\n\n"
+        + language_stats
+        + "\n\n"
+        + timestamp
     )
 
     # Read README.
@@ -401,39 +493,12 @@ def main():
     ) as file:
         readme = file.read()
 
-    # Update GitHub activity.
+    # Update entire Dev Metrics section.
     readme = update_section(
         readme,
         START_MARKER,
         END_MARKER,
-        commit_stats,
-    )
-
-    # Update language statistics.
-    readme = update_section(
-        readme,
-        LANG_START_MARKER,
-        LANG_END_MARKER,
-        language_stats,
-    )
-
-    # Put timestamp at the very bottom of
-    # the generated stats section.
-    timestamp = (
-        f'<div align="center">'
-        f'<sub>Last Updated on {updated}</sub>'
-        f"</div>"
-    )
-
-    # Insert timestamp after language stats.
-    language_end = (
-        LANG_END_MARKER
-    )
-
-    readme = readme.replace(
-        language_end,
-        f"{timestamp}\n{language_end}",
-        1,
+        github_stats,
     )
 
     # Write README.
