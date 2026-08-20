@@ -44,6 +44,27 @@ Sunday          5 commits   ██░░░░░░░░░░░░░░░�
 </pre>
 <!-- END_GITHUB_STATS -->
 
+### Most Used Languages
+
+<!-- START_LANGUAGE_STATS -->
+<pre>
+C++            ████████████████████ 49.81 %
+HTML           ████░░░░░░░░░░░░░░░░ 09.83 %
+TypeScript     ████░░░░░░░░░░░░░░░░ 09.67 %
+Python         ███░░░░░░░░░░░░░░░░░ 06.29 %
+CMake          ██░░░░░░░░░░░░░░░░░░ 05.26 %
+Rust           ██░░░░░░░░░░░░░░░░░░ 04.71 %
+JavaScript     ██░░░░░░░░░░░░░░░░░░ 03.97 %
+ShaderLab      █░░░░░░░░░░░░░░░░░░░ 03.40 %
+</pre>
+<!-- END_LANGUAGE_STATS -->
+
+<!-- START_STATS_UPDATED -->
+<div align="center">
+  <sub>Last Updated on 20/08/2026 21:37:03 UTC</sub>
+</div>
+<!-- END_STATS_UPDATED -->
+
 ---
 
 ### Tech Stack
@@ -62,7 +83,6 @@ Sunday          5 commits   ██░░░░░░░░░░░░░░░�
 ![WordPress](https://img.shields.io/badge/-WordPress-21759B?style=flat&logo=wordpress&logoColor=white)
 ![HTML](https://img.shields.io/badge/-HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 
-
 **Frameworks & Databases**  
 ![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
@@ -79,24 +99,6 @@ Sunday          5 commits   ██░░░░░░░░░░░░░░░�
 
 ---
 
-### Most Used Languages
-
-<!-- START_LANGUAGE_STATS -->
-<pre>
-C++            ████████████████████ 49.81 %
-HTML           ████░░░░░░░░░░░░░░░░ 09.83 %
-TypeScript     ████░░░░░░░░░░░░░░░░ 09.67 %
-Python         ███░░░░░░░░░░░░░░░░░ 06.29 %
-CMake          ██░░░░░░░░░░░░░░░░░░ 05.26 %
-Rust           ██░░░░░░░░░░░░░░░░░░ 04.71 %
-JavaScript     ██░░░░░░░░░░░░░░░░░░ 03.97 %
-ShaderLab      █░░░░░░░░░░░░░░░░░░░ 03.40 %
-</pre>
-<div align="center"><sub>Last Updated on 20/08/2026 21:37:03 UTC</sub></div>
-<!-- END_LANGUAGE_STATS -->
-
----
-
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/NguyenThomas986/NguyenThomas986/output/github-contribution-grid-snake-dark.svg">
@@ -108,6 +110,7 @@ ShaderLab      █░░░░░░░░░░░░░░░░░░░ 03.4
 ---
 
 ### Reach me
+
 [![Portfolio](https://img.shields.io/badge/-Portfolio-000000?style=flat&logo=github&logoColor=white)](https://nguyenthomas986.github.io)
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/thomasmnguyen)
 [![Email](https://img.shields.io/badge/-Email-EA4335?style=flat&logo=gmail&logoColor=white)](mailto:nguyenthomas986@gmail.com)
