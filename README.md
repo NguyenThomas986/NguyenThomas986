@@ -25,22 +25,22 @@ Anticipated Graduation: May 2028
 **🌙 I'm a Night Owl**
 
 <pre>
-🌞 Morning          39 commits   ████████████░░░░░░░░░░░░ 22.41 %
+🌞 Morning          39 commits   ████████████░░░░░░░░░░░░ 21.91 %
 🌆 Daytime           0 commits   ░░░░░░░░░░░░░░░░░░░░░░░░ 00.00 %
-🌃 Evening          56 commits   █████████████████░░░░░░░ 32.18 %
-🌙 Night            79 commits   ████████████████████████ 45.40 %
+🌃 Evening          60 commits   ██████████████████░░░░░░ 33.71 %
+🌙 Night            79 commits   ████████████████████████ 44.38 %
 </pre>
 
 **📅 I'm Most Productive on Wednesday**
 
 <pre>
-Monday         28 commits   ████████████░░░░░░░░░░░░ 16.09 %
-Tuesday        43 commits   ██████████████████░░░░░░ 24.71 %
-Wednesday      58 commits   ████████████████████████ 33.33 %
-Thursday       24 commits   ██████████░░░░░░░░░░░░░░ 13.79 %
-Friday         16 commits   ███████░░░░░░░░░░░░░░░░░ 09.20 %
+Monday         32 commits   █████████████░░░░░░░░░░░ 17.98 %
+Tuesday        43 commits   ██████████████████░░░░░░ 24.16 %
+Wednesday      58 commits   ████████████████████████ 32.58 %
+Thursday       24 commits   ██████████░░░░░░░░░░░░░░ 13.48 %
+Friday         16 commits   ███████░░░░░░░░░░░░░░░░░ 08.99 %
 Saturday        0 commits   ░░░░░░░░░░░░░░░░░░░░░░░░ 00.00 %
-Sunday          5 commits   ██░░░░░░░░░░░░░░░░░░░░░░ 02.87 %
+Sunday          5 commits   ██░░░░░░░░░░░░░░░░░░░░░░ 02.81 %
 </pre>
 
 **Most Used Languages**
@@ -56,7 +56,7 @@ JavaScript     ██░░░░░░░░░░░░░░░░░░ 03.9
 ShaderLab      █░░░░░░░░░░░░░░░░░░░ 03.37 %
 </pre>
 
-<div align="center"><sub>Last Updated on 24/08/2026 13:01:41 UTC</sub></div>
+<div align="center"><sub>Last Updated on 25/08/2026 12:57:17 UTC</sub></div>
 <!-- END_GITHUB_STATS -->
 
 ---
