@@ -22,25 +22,6 @@ Anticipated Graduation: May 2028
 <!-- GitHub productivity statistics generated automatically -->
 
 <!-- START_GITHUB_STATS -->
-**🌙 I'm a Night Owl**
-
-<pre>
-🌞 Morning          39 commits   ███████████░░░░░░░░░░░░░ 21.08 %
-🌆 Daytime           0 commits   ░░░░░░░░░░░░░░░░░░░░░░░░ 00.00 %
-🌃 Evening          62 commits   ██████████████████░░░░░░ 33.51 %
-🌙 Night            84 commits   ████████████████████████ 45.41 %
-</pre>
-
-**📅 I'm Most Productive on Wednesday**
-
-<pre>
-Monday         34 commits   █████████████░░░░░░░░░░░ 18.38 %
-Tuesday        43 commits   █████████████████░░░░░░░ 23.24 %
-Wednesday      62 commits   ████████████████████████ 33.51 %
-Thursday       25 commits   ██████████░░░░░░░░░░░░░░ 13.51 %
-Friday         16 commits   ██████░░░░░░░░░░░░░░░░░░ 08.65 %
-Saturday        0 commits   ░░░░░░░░░░░░░░░░░░░░░░░░ 00.00 %
-Sunday          5 commits   ██░░░░░░░░░░░░░░░░░░░░░░ 02.70 %
 </pre>
 
 **Most Used Languages**
